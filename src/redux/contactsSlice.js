@@ -3,6 +3,8 @@ import contactsData from "../data/contacts.json";
 
 const INITIAL_STATE = {
     items: contactsData,
+    loading: false,
+    error: null
 };
 
 const slice = createSlice({
