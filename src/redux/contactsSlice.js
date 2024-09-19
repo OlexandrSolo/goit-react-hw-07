@@ -1,23 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit"
-import contactsData from "../data/contacts.json";
+import { addContact, deleteContact, fetchContacts } from "./contactsOps";
 
 const INITIAL_STATE = {
-    items: contactsData,
+    items: [],
     loading: false,
     error: null
 };
 
-const slice = createSlice({
+const handlePending = state => state.loading = true;
+const handleRejected = (state, action) => {
+    state.loading = false;
+    state.error = action.payload
+}
+
+const sliceContacts = createSlice({
     name: "contacts", initialState: INITIAL_STATE,
-    reducers: {
-        addContact: (state, action) => {
-            state.items.push(action.payload)
-        },
-        deleteContact: (state, action) => {
-            state.items = state.items.filter(item => item.id !== action.payload)
-        }
-    }
+    extraReducers: builder => {
+        builder
+            .addCase(fetchContacts.pending, handlePending)
+            .addCase(fetchContacts.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                state.items = action.payload
+            })
+            .addCase(fetchContacts.rejected, handleRejected)
+            .addCase(addContact.pending, handlePending)
+            .addCase(addContact.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                state.items = state.items.push(action.payload)
+            })
+            .addCase(deleteContact.pending, handlePending)
+            .addCase(deleteContact.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                const index = state.items.findIndex(item => item.id === action.payload.id)
+                state.items = state.items.splice(1, index)
+            })
+    },
 })
-export const { addContact, deleteContact } = slice.actions
-export const selectContact = (state) => state.contacts.items;
-export default slice.reducer
+
+export const contactsReducer = sliceContacts.reducer

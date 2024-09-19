@@ -1,27 +1,27 @@
-// import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchContacts } from "../../redux/contactsOps";
 
 import style from "./App.module.css";
 import ContactForm from "../ContactForm/ContactForm";
 import ContactList from "../ContactList/ContactList";
 import SearchBox from "../SearchBox/SearchBox";
-// import initialContactList from "../../../contactList.json";
-
-// const getInitialValue = () => {
-//   const checkStorage = localStorage.getItem("contactList");
-//   return checkStorage ? JSON.parse(checkStorage) : initialContactList;
-// };
+import { getError, getLoading } from "../../redux/selectors";
 
 function App() {
-  // useEffect(() => {
-  //   const phoneBook = JSON.stringify(contactList);
-  //   localStorage.setItem("contactList", phoneBook);
-  // }, [contactList]);
+  const dispatch = useDispatch();
+  const loading = useSelector(getLoading);
+  const error = useSelector(getError);
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div className={style.formWrapper}>
       <div className={style.container}>
         <ContactForm />
         <SearchBox />
+        {loading && !error && <b>Loading Contacts Book...</b>}
         <ContactList />
       </div>
     </div>
