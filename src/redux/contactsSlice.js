@@ -14,7 +14,8 @@ const handleRejected = (state, action) => {
 }
 
 const sliceContacts = createSlice({
-    name: "contacts", initialState: INITIAL_STATE,
+    name: "contacts",
+    initialState: INITIAL_STATE,
     extraReducers: builder => {
         builder
             .addCase(fetchContacts.pending, handlePending)
