@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     error: null
 };
 
-const handlePending = state => state.loading = true;
+const handlePending = state => { state.loading = true };
 const handleRejected = (state, action) => {
     state.loading = false;
     state.error = action.payload
@@ -29,7 +29,7 @@ const sliceContacts = createSlice({
             .addCase(addContact.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
-                state.items = state.items.push(action.payload)
+                state.items.push(action.payload)
             })
             .addCase(deleteContact.pending, handlePending)
             .addCase(deleteContact.fulfilled, (state, action) => {
