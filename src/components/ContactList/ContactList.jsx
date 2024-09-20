@@ -1,9 +1,10 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import style from "./ContactList.module.css";
 
 import ContactListItem from "../Contact/Contact";
 import { selectNameFilter } from "../../redux/filtersSlice";
 import { getContacts } from "../../redux/selectors";
+// import { useMemo } from "react";
 
 const getFilteredList = (contactList, filter) => {
   return contactList.filter((item) =>
@@ -13,14 +14,16 @@ const getFilteredList = (contactList, filter) => {
 
 export default function ContactList() {
   const contactList = useSelector(getContacts);
-  console.log(getContacts);
-  console.log(contactList);
   const filterName = useSelector(selectNameFilter);
+  // const listContact = useMemo(
+  //   () => getFilteredList(contactList, filterName),
+  //   [contactList, filterName]
+  // );
   const list = getFilteredList(contactList, filterName);
 
   return (
     <ul>
-      {list.map((user) => (
+      {listContact.map((user) => (
         <li key={user.id} className={style.contact}>
           <ContactListItem user={user} />
         </li>
