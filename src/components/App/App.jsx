@@ -6,12 +6,12 @@ import style from "./App.module.css";
 import ContactForm from "../ContactForm/ContactForm";
 import ContactList from "../ContactList/ContactList";
 import SearchBox from "../SearchBox/SearchBox";
-import { getError, getLoading } from "../../redux/selectors";
+import { selectError, selectLoading } from "../../redux/selectors";
 
 function App() {
   const dispatch = useDispatch();
-  const loading = useSelector(getLoading);
-  const error = useSelector(getError);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
